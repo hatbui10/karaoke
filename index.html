@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyberpunk Karaoke Sync Pro</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#030305;
+    color:white;
+    font-family:'Segoe UI',sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+}
+
+/* Đúng quy tắc bố cục bắt buộc: Cách mép trên 30px, cách hai bên biên 3px */
+.app{
+    width: calc(100% - 6px);
+    margin-top: 30px;
+    margin-left: 3px;
+    margin-right: 3px;
+    max-width:520px;
+}
+
+.panel{
+    background:rgba(10,10,15,.95);
+    border:1px solid #00e5ff;
+    border-radius:10px;
+    padding:15px;
+    box-shadow:0 0 20px rgba(0,229,255,.15);
+    margin-bottom:15px;
+}
+
+.title{
+    text-align:center;
+    color:#00e5ff;
+    font-size:18px;
+    font-weight:900;
+    letter-spacing:3px;
+    margin-bottom:15px;
+    text-shadow:0 0 12px #00e5ff;
+}
+
+.upload{
+    position:relative;
+    margin-bottom:10px;
+}
+
+.upload label{
+    display:block;
+    width:100%;
+    padding:14px;
+    text-align:center;
+    border:2px dashed #ff007f;
+    border-radius:8px;
+    cursor:pointer;
+    color:#ff007f;
+    font-weight:700;
+    transition:.3s;
+}
+
+.upload label:hover{
+    background:#ff007f;
+    color:black;
+    box-shadow:0 0 20px #ff007f;
+}
+
+.upload input{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    cursor:pointer;
+}
+
+.status{
+    text-align:center;
+    color:#888;
+    font-size:14px;
+    margin-bottom:12px;
+}
+
+audio{
+    width:100%;
+}
+
+/* Khung hiển thị lời dạng Textarea cố định chiều cao */
+.textarea-container {
+    width: 100%;
+    height: 250px; 
+    background: rgba(5,5,8,.98);
+    border: 2px solid #ff007f;
+    border-radius: 10px;
+    padding: 0 20px; 
+    overflow: hidden; 
+    box-shadow: 0 0 25px rgba(255,0,127,.15);
+    position: relative;
+}
+
+.lyrics-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    width: calc(100% - 40px);
+    left: 20px;
+    top: 0;
+    will-change: transform;
+}
+
+.lyric-line{
+    text-align:center; 
+    line-height: 1.4;
+    width: 100%;
+    min-height: 36px;
+    opacity: 0.2; 
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: scale(0.95);
+}
+
+/* Dòng đang hát: Sáng rõ và phóng to làm tiêu điểm ở chính giữa */
+.lyric-line.active-line {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.lyric-word{
+    display:inline-block;
+    margin: 0 4px;
+    font-size:24px;
+    font-weight:900;
+    color:rgba(255,255,255,0.4); 
+    transition:.05s linear;
+    text-transform:uppercase;
+}
+
+/* Bật sáng rực màu Neon Hồng khi hát tới từ đó */
+.lyric-word.active{
+    color:#ff007f;
+    text-shadow:
+        0 0 5px #ff007f,
+        0 0 15px #ff007f,
+        0 0 25px #ff007f;
+}
+
+/* Trạng thái chữ đã hát qua */
+.lyric-word.passed{
+    color:#00cfff;
+    text-shadow: none;
+}
+
+/* Dòng Highlight đặc biệt (STAY INSIDE!) đổi màu vàng */
+.highlight .lyric-word.active{
+    color:#ffd000;
+    text-shadow:
+        0 0 5px #ffd000,
+        0 0 15px #ffd000,
+        0 0 25px #ffd000;
+}
+
+.glow-line{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background: radial-gradient(circle at center, rgba(255,0,127,.04), transparent 70%);
+}
+</style>
+</head>
+
+<body>
+
+<div class="glow-line"></div>
+
+<div class="app">
+    <div class="panel">
+        <div class="title">CYBERPUNK KARAOKE</div>
+        <div class="upload">
+            <label for="audioInput" id="uploadLabel">NẠP FILE NHẠC</label>
+            <input type="file" id="audioInput" accept="audio/*">
+        </div>
+        <div class="status" id="status">Chưa nạp nhạc</div>
+        <audio id="audio" controls></audio>
+    </div>
+
+    <div class="textarea-container" id="textContainer">
+        <div class="lyrics-content" id="lyricsContent"></div>
+    </div>
+</div>
+
+<script>
+// Khớp toàn bộ lời bài hát chạy liên tục ngay từ 0.0 giây
+const lyricsData = [
+{
+    lineStart: 0.0, lineEnd: 3.4,
+    words: [
+        {text:"Say",time:0.0}, {text:"it",time:0.3}, {text:"till",time:0.6}, {text:"I",time:0.9}, 
+        {text:"fade,",time:1.3}, {text:"fade,",time:1.9}, {text:"fade",time:2.6}
+    ]
+},
+{
+    lineStart: 3.5, lineEnd: 6.9,
+    words: [
+        {text:"Push",time:3.5}, {text:"me",time:3.9}, {text:"till",time:4.3}, {text:"I",time:4.7}, {text:"break",time:5.3}
+    ]
+},
+{
+    lineStart: 7.0, lineEnd: 10.2,
+    words: [
+        {text:"I",time:7.0}, {text:"don't",time:7.4}, {text:"wanna",time:7.9}, {text:"stay",time:8.6}
+    ]
+},
+{
+    lineStart: 10.3, lineEnd: 13.7,
+    words: [
+        {text:"Say",time:10.3}, {text:"it",time:10.6}, {text:"till",time:10.9}, {text:"I",time:11.2}, 
+        {text:"fade,",time:11.6}, {text:"e-e-fade",time:12.3}
+    ]
+},
+{
+    lineStart: 13.8, lineEnd: 17.2,
+    words: [
+        {text:"Say",time:13.8}, {text:"it",time:14.1}, {text:"till",time:14.4}, {text:"I",time:14.7}, 
+        {text:"fade,",time:15.1}, {text:"e-e-fade",time:15.8}
+    ]
+},
+{
+    lineStart: 17.3, lineEnd: 20.6,
+    words: [
+        {text:"Push",time:17.3}, {text:"me",time:17.7}, {text:"till",time:18.0}, {text:"I",time:18.4}, 
+        {text:"break,",time:18.8}, {text:"break",time:19.4}
+    ]
+},
+{
+    lineStart: 20.7, lineEnd: 23.9,
+    words: [
+        {text:"I",time:20.7}, {text:"don't",time:21.1}, {text:"wanna",time:21.6}, {text:"stay",time:22.3}
+    ]
+},
+{
+    lineStart: 24.0, lineEnd: 27.4,
+    words: [
+        {text:"C-C-Cut",time:24.0}, {text:"the",time:24.5}, {text:"name,",time:24.9}, {text:"no",time:25.3}, 
+        {text:"tag,",time:25.7}, {text:"no",time:26.1}, {text:"trade",time:26.5}
+    ]
+},
+{
+    lineStart: 27.5, lineEnd: 30.9,
+    words: [
+        {text:"Shut",time:27.5}, {text:"it",time:27.9}, {text:"down,",time:28.2}, {text:"I",time:28.7}, 
+        {text:"like",time:29.1}, {text:"this",time:29.5}, {text:"place",time:30.0}
+    ]
+},
+{
+    lineStart: 31.0, lineEnd: 34.4,
+    words: [
+        {text:"No",time:31.0}, {text:"way",time:31.4}, {text:"out,",time:31.8}, {text:"you",time:32.2}, 
+        {text:"feel",time:32.7}, {text:"that",time:33.1}, {text:"pull",time:33.6}
+    ]
+},
+{
+    lineStart: 34.5, lineEnd: 37.9,
+    words: [
+        {text:"Step",time:34.5}, {text:"too",time:34.9}, {text:"deep,",time:35.3}, {text:"now",time:35.7}, 
+        {text:"you're",time:36.1}, {text:"gonna",time:36.4}, {text:"go",time:36.8}, {text:"numb",time:37.2}
+    ]
+},
+{
+    lineStart: 38.0, lineEnd: 41.4,
+    words: [
+        {text:"Turn",time:38.0}, {text:"the",time:38.4}, {text:"back,",time:38.8}, {text:"it's",time:39.2}, 
+        {text:"too",time:39.6}, {text:"late",time:40.0}, {text:"now",time:40.5}
+    ]
+},
+{
+    lineStart: 41.5, lineEnd: 44.9,
+    words: [
+        {text:"Say",time:41.5}, {text:"it",time:41.9}, {text:"soft",time:42.3}, {text:"then",time:42.7}, 
+        {text:"say",time:43.1}, {text:"it",time:43.5}, {text:"loud",time:44.0}
+    ]
+},
+{
+    lineStart: 45.0, lineEnd: 48.4,
+    words: [
+        {text:"Lose",time:45.0}, {text:"that",time:45.4}, {text:"line,",time:45.8}, {text:"lose",time:46.2}, 
+        {text:"that",time:46.6}, {text:"frame",time:47.1}
+    ]
+},
+{
+    lineStart: 48.5, lineEnd: 51.6,
+    words: [
+        {text:"Say",time:48.5}, {text:"it",time:48.9}, {text:"once,",time:49.3}, {text:"forget",time:49.7}, 
+        {text:"your",time:50.3}, {text:"name",time:50.8}
+    ]
+},
+{
+    lineStart: 51.7, lineEnd: 53.9,
+    words: [
+        {text:"Drop-drop-drop-drop",time:51.7}, {text:"your",time:52.7}, {text:"name",time:53.2}
+    ]
+},
+{
+    lineStart: 54.0, lineEnd: 55.4, highlight: true,
+    words: [
+        {text:"STAY",time:54.0}, {text:"INSIDE!",time:54.5}
+    ]
+},
+{
+    lineStart: 55.5, lineEnd: 58.9,
+    words: [
+        {text:"Say",time:55.5}, {text:"it,",time:55.9}, {text:"say",time:56.2}, {text:"it",time:56.5}, 
+        {text:"till",time:56.9}, {text:"I",time:57.4}, {text:"fade",time:57.8}
+    ]
+},
+{
+    lineStart: 59.0, lineEnd: 62.4,
+    words: [
+        {text:"Say",time:59.0}, {text:"it",time:59.3}, {text:"till",time:59.6}, {text:"I",time:59.9}, 
+        {text:"fade",time:60.5}
+    ]
+},
+{
+    lineStart: 62.5, lineEnd: 65.9,
+    words: [
+        {text:"Push",time:62.5}, {text:"me",time:62.9}, {text:"till",time:63.3}, {text:"I",time:63.7}, {text:"break",time:64.3}
+    ]
+},
+{
+    lineStart: 66.0, lineEnd: 69.2,
+    words: [
+        {text:"I",time:66.0}, {text:"don't",time:66.4}, {text:"wanna",time:66.9}, {text:"stay",time:67.6}
+    ]
+},
+{
+    lineStart: 69.3, lineEnd: 72.7,
+    words: [
+        {text:"Cross",time:69.3}, {text:"that",time:69.7}, {text:"line,",time:70.1}, {text:"we",time:70.5}, 
+        {text:"don't",time:70.9}, {text:"behave",time:71.5}
+    ]
+},
+{
+    lineStart: 72.8, lineEnd: 76.2,
+    words: [
+        {text:"Kill",time:72.8}, {text:"the",time:73.2}, {text:"doubt,",time:73.6}, {text:"we",time:74.0}, 
+        {text:"disobey",time:74.8}
+    ]
+},
+{
+    lineStart: 76.3, lineEnd: 79.5,
+    words: [
+        {text:"No-no-no",time:76.3}, {text:"more",time:77.3}, {text:"space",time:78.1}
+    ]
+},
+{
+    lineStart: 79.6, lineEnd: 81.9,
+    words: [
+        {text:"We",time:79.6}, {text:"overlap",time:80.4}
+    ]
+},
+{
+    lineStart: 82.0, lineEnd: 84.4,
+    words: [
+        {text:"No",time:82.0}, {text:"way",time:82.4}, {text:"out",time:83.0}
+    ]
+},
+{
+    lineStart: 84.5, lineEnd: 86.9,
+    words: [
+        {text:"We",time:84.5}, {text:"don't",time:84.9}, {text:"go",time:85.3}, {text:"back",time:85.8}
+    ]
+},
+{
+    lineStart: 87.0, lineEnd: 88.9,
+    words: [
+        {text:"See?",time:87.0}
+    ]
+},
+{
+    lineStart: 89.0, lineEnd: 92.4,
+    words: [
+        {text:"Say",time:89.0}, {text:"it",time:89.3}, {text:"till",time:89.6}, {text:"I",time:89.9}, 
+        {text:"fade,",time:90.3}, {text:"fade",time:91.0}
+    ]
+},
+{
+    lineStart: 92.5, lineEnd: 95.9,
+    words: [
+        {text:"Say",time:92.5}, {text:"it",time:92.8}, {text:"till",time:93.1}, {text:"I",time:93.4}, 
+        {text:"fade",time:94.0}
+    ]
+},
+{
+    lineStart: 96.0, lineEnd: 99.4,
+    words: [
+        {text:"Push",time:96.0}, {text:"me",time:96.4}, {text:"till",time:96.8}, {text:"I",time:97.2}, {text:"break",time:97.8}
+    ]
+},
+{
+    lineStart: 99.5, lineEnd: 102.7,
+    words: [
+        {text:"I",time:99.5}, {text:"don't",time:99.9}, {text:"wanna",time:100.4}, {text:"stay",time:101.1}
+    ]
+},
+{
+    lineStart: 102.8, lineEnd: 106.2,
+    words: [
+        {text:"Fall",time:102.8}, {text:"as",time:103.2}, {text:"one,",time:103.6}, {text:"no",time:104.0}, 
+        {text:"escape",time:104.8}
+    ]
+},
+{
+    lineStart: 106.3, lineEnd: 109.7,
+    words: [
+        {text:"We",time:106.3}, {text:"don't",time:106.7}, {text:"stop,",time:107.1}, {text:"we",time:107.5}, 
+        {text:"mutate",time:108.3}
+    ]
+},
+{
+    lineStart: 109.8, lineEnd: 112.9,
+    words: [
+        {text:"Say",time:109.8}, {text:"it,",time:110.4}, {text:"say",time:111.0}, {text:"it,",time:111.6}, {text:"say",time:112.1}, {text:"it...",time:112.5}
+    ]
+},
+{
+    lineStart: 113.0, lineEnd: 116.4,
+    words: [
+        {text:"Say",time:113.0}, {text:"it",time:113.3}, {text:"till",time:113.6}, {text:"I",time:113.9}, 
+        {text:"fade,",time:114.3}, {text:"fade,",time:114.9}, {text:"fade,",time:115.4}, {text:"fade",time:115.9}
+    ]
+},
+{
+    lineStart: 116.5, lineEnd: 119.9,
+    words: [
+        {text:"Say",time:116.5}, {text:"it",time:116.8}, {text:"till",time:117.1}, {text:"I",time:117.4}, 
+        {text:"fade",time:118.0}
+    ]
+},
+{
+    lineStart: 120.0, lineEnd: 123.4,
+    words: [
+        {text:"Say",time:120.0}, {text:"it",time:120.3}, {text:"till",time:120.6}, {text:"I",time:120.9}, 
+        {text:"fade",time:121.5}
+    ]
+},
+{
+    lineStart: 123.5, lineEnd: 127.0,
+    words: [
+        {text:"Say",time:123.5}, {text:"it",time:123.8}, {text:"till",time:124.1}, {text:"I",time:124.4}, 
+        {text:"fade",time:125.0}
+    ]
+}
+];
+
+const textContainer = document.getElementById("textContainer");
+const lyricsContent = document.getElementById("lyricsContent");
+const audio = document.getElementById("audio");
+const audioInput = document.getElementById("audioInput");
+const statusText = document.getElementById("status");
+const uploadLabel = document.getElementById("uploadLabel");
+
+let targetTranslateY = 0;
+let actualTranslateY = 0;
+
+function createLyrics(){
+    lyricsContent.innerHTML = "";
+    lyricsData.forEach((line,lineIndex)=>{
+        const lineDiv = document.createElement("div");
+        lineDiv.className = "lyric-line";
+        if(line.highlight){
+            lineDiv.classList.add("highlight");
+        }
+        lineDiv.id = `line-${lineIndex}`;
+
+        line.words.forEach((word,wordIndex)=>{
+            const span = document.createElement("span");
+            span.className = "lyric-word";
+            span.id = `word-${lineIndex}-${wordIndex}`;
+            span.textContent = word.text;
+            lineDiv.appendChild(span);
+        });
+        lyricsContent.appendChild(lineDiv);
+    });
+}
+
+function updateLyrics(){
+    const currentTime = audio.currentTime;
+    let activeLineElement = null;
+
+    lyricsData.forEach((line,lineIndex)=>{
+        const lineElement = document.getElementById(`line-${lineIndex}`);
+        if(!lineElement) return;
+
+        if(currentTime >= line.lineStart && currentTime <= line.lineEnd){
+            activeLineElement = lineElement;
+            if(!lineElement.classList.contains("active-line")){
+                lineElement.classList.add("active-line");
+            }
+
+            line.words.forEach((word,wordIndex)=>{
+                const wordElement = document.getElementById(`word-${lineIndex}-${wordIndex}`);
+                if(!wordElement) return;
+
+                const nextWord = line.words[wordIndex + 1];
+                const nextTime = nextWord ? nextWord.time : line.lineEnd;
+
+                if(currentTime >= word.time && currentTime < nextTime){
+                    wordElement.className = "lyric-word active";
+                }
+                else if(currentTime >= nextTime){
+                    wordElement.className = "lyric-word passed";
+                }
+                else{
+                    wordElement.className = "lyric-word";
+                }
+            });
+        }
+        else{
+            lineElement.classList.remove("active-line");
+            line.words.forEach((word,wordIndex)=>{
+                const wordElement = document.getElementById(`word-${lineIndex}-${wordIndex}`);
+                if(!wordElement) return;
+
+                if(currentTime > line.lineEnd){
+                    wordElement.className = "lyric-word passed";
+                }
+                else{
+                    wordElement.className = "lyric-word";
+                }
+            });
+        }
+    });
+
+    // Định vị dòng active ở chính giữa tâm trục dọc của container
+    if (activeLineElement) {
+        const lineTop = activeLineElement.offsetTop;
+        const lineHeight = activeLineElement.offsetHeight;
+        const containerHeight = textContainer.clientHeight;
+
+        targetTranslateY = (containerHeight / 2) - (lineTop + (lineHeight / 2));
+    }
+
+    // Lướt cuộn mượt dịu bằng kỹ thuật nội suy Lerp
+    actualTranslateY += (targetTranslateY - actualTranslateY) * 0.1;
+    lyricsContent.style.transform = `translateY(${actualTranslateY}px)`;
+
+    requestAnimationFrame(updateLyrics);
+}
+
+audioInput.addEventListener("change",(e)=>{
+    const file = e.target.files[0];
+    if(file){
+        audio.src = URL.createObjectURL(file);
+        statusText.innerHTML = "Đã nạp: " + file.name;
+        statusText.style.color = "#00e5ff";
+        uploadLabel.innerText = "ĐỔI FILE NHẠC";
+        
+        targetTranslateY = 0;
+        actualTranslateY = 0;
+        lyricsContent.style.transform = "translateY(0px)";
+        
+        audio.play().catch(err => console.log("Hệ thống chờ phát nhạc."));
+    }
+});
+
+createLyrics();
+requestAnimationFrame(updateLyrics);
+</script>
+
+</body>
+</html>
