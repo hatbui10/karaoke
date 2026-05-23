@@ -197,264 +197,264 @@ audio{
 </div>
 
 <script>
-// Khớp toàn bộ lời bài hát chạy liên tục ngay từ 0.0 giây
+// Khớp và phân bổ lại mốc thời gian chuẩn xác trải đều cho toàn bộ bài hát
 const lyricsData = [
 {
-    lineStart: 0.0, lineEnd: 3.4,
+    lineStart: 0.0, lineEnd: 3.2,
     words: [
         {text:"Say",time:0.0}, {text:"it",time:0.3}, {text:"till",time:0.6}, {text:"I",time:0.9}, 
-        {text:"fade,",time:1.3}, {text:"fade,",time:1.6}, {text:"fade",time:1.9}
+        {text:"fade,",time:1.3}, {text:"fade,",time:1.9}, {text:"fade",time:2.5}
     ]
 },
 {
-    lineStart: 3.5, lineEnd: 6.9,
+    lineStart: 3.3, lineEnd: 6.4,
     words: [
-        {text:"Push",time:3.5}, {text:"me",time:3.9}, {text:"till",time:4.3}, {text:"I",time:4.7}, {text:"break",time:5.3}
+        {text:"Push",time:3.3}, {text:"me",time:3.7}, {text:"till",time:4.2}, {text:"I",time:4.7}, {text:"break",time:5.3}
     ]
 },
 {
-    lineStart: 6.0, lineEnd: 7.2,
+    lineStart: 6.5, lineEnd: 7.2,
     words: [
-        {text:"I",time:6.0}, {text:"don't",time:6.2}, {text:"wanna",time:6.8}, {text:"stay",time:7.2}
+        {text:"I",time:6.5}, {text:"don't",time:6.8}, {text:"wanna",time:7.2}, {text:"stay",time:7.5}
     ]
 },
 {
-    lineStart: 7.5, lineEnd: 8.6,
+    lineStart: 10.0, lineEnd: 13.3,
     words: [
-        {text:"Say",time:7.5}, {text:"it",time:7.3}, {text:"till",time:7.6}, {text:"I",time:7.9}, 
-        {text:"fade,",time:8.2}, {text:"e-e-fade",time:8.6}
+        {text:"Say",time:10.0}, {text:"it",time:10.3}, {text:"till",time:10.6}, {text:"I",time:10.9}, 
+        {text:"fade,",time:11.3}, {text:"e-e-fade",time:12.1}
     ]
 },
 {
-    lineStart: 9.1, lineEnd: 10.3,
+    lineStart: 13.4, lineEnd: 16.9,
     words: [
-        {text:"Say",time:9.1}, {text:"it",time:9.4}, {text:"till",time:9.7}, {text:"I",time:10.0}, 
-        {text:"fade,",time:10.3}, {text:"e-e-fade",time:10.6}
+        {text:"Say",time:13.4}, {text:"it",time:13.7}, {text:"till",time:14.0}, {text:"I",time:14.4}, 
+        {text:"fade,",time:14.9}, {text:"e-e-fade",time:15.7}
     ]
 },
 {
-    lineStart: 17.3, lineEnd: 20.6,
+    lineStart: 17.0, lineEnd: 20.4,
     words: [
-        {text:"Push",time:17.3}, {text:"me",time:17.7}, {text:"till",time:18.0}, {text:"I",time:18.4}, 
-        {text:"break,",time:18.8}, {text:"break",time:19.4}
+        {text:"Push",time:17.0}, {text:"me",time:17.4}, {text:"till",time:17.9}, {text:"I",time:18.4}, 
+        {text:"break,",time:18.9}, {text:"break",time:19.6}
     ]
 },
 {
-    lineStart: 20.7, lineEnd: 23.9,
+    lineStart: 20.5, lineEnd: 23.8,
     words: [
-        {text:"I",time:20.7}, {text:"don't",time:21.1}, {text:"wanna",time:21.6}, {text:"stay",time:22.3}
+        {text:"I",time:20.5}, {text:"don't",time:20.9}, {text:"wanna",time:21.5}, {text:"stay",time:22.4}
     ]
 },
 {
-    lineStart: 24.0, lineEnd: 27.4,
+    lineStart: 23.9, lineEnd: 27.2,
     words: [
-        {text:"C-C-Cut",time:24.0}, {text:"the",time:24.5}, {text:"name,",time:24.9}, {text:"no",time:25.3}, 
-        {text:"tag,",time:25.7}, {text:"no",time:26.1}, {text:"trade",time:26.5}
+        {text:"C-C-Cut",time:23.9}, {text:"the",time:24.3}, {text:"name,",time:24.7}, {text:"no",time:25.1}, 
+        {text:"tag,",time:25.5}, {text:"no",time:25.9}, {text:"trade",time:26.4}
     ]
 },
 {
-    lineStart: 27.5, lineEnd: 30.9,
+    lineStart: 27.3, lineEnd: 30.6,
     words: [
-        {text:"Shut",time:27.5}, {text:"it",time:27.9}, {text:"down,",time:28.2}, {text:"I",time:28.7}, 
-        {text:"like",time:29.1}, {text:"this",time:29.5}, {text:"place",time:30.0}
+        {text:"Shut",time:27.3}, {text:"it",time:27.6}, {text:"down,",time:28.0}, {text:"I",time:28.4}, 
+        {text:"like",time:28.9}, {text:"this",time:29.4}, {text:"place",time:29.9}
     ]
 },
 {
-    lineStart: 31.0, lineEnd: 34.4,
+    lineStart: 30.7, lineEnd: 34.0,
     words: [
-        {text:"No",time:31.0}, {text:"way",time:31.4}, {text:"out,",time:31.8}, {text:"you",time:32.2}, 
-        {text:"feel",time:32.7}, {text:"that",time:33.1}, {text:"pull",time:33.6}
+        {text:"No",time:30.7}, {text:"way",time:31.0}, {text:"out,",time:31.4}, {text:"you",time:31.8}, 
+        {text:"feel",time:32.3}, {text:"that",time:32.8}, {text:"pull",time:33.3}
     ]
 },
 {
-    lineStart: 34.5, lineEnd: 37.9,
+    lineStart: 34.1, lineEnd: 37.5,
     words: [
-        {text:"Step",time:34.5}, {text:"too",time:34.9}, {text:"deep,",time:35.3}, {text:"now",time:35.7}, 
-        {text:"you're",time:36.1}, {text:"gonna",time:36.4}, {text:"go",time:36.8}, {text:"numb",time:37.2}
+        {text:"Step",time:34.1}, {text:"too",time:34.4}, {text:"deep,",time:34.8}, {text:"now",time:35.2}, 
+        {text:"you're",time:35.6}, {text:"gonna",time:36.0}, {text:"go",time:36.4}, {text:"numb",time:36.9}
     ]
 },
 {
-    lineStart: 38.0, lineEnd: 41.4,
+    lineStart: 37.6, lineEnd: 41.0,
     words: [
-        {text:"Turn",time:38.0}, {text:"the",time:38.4}, {text:"back,",time:38.8}, {text:"it's",time:39.2}, 
-        {text:"too",time:39.6}, {text:"late",time:40.0}, {text:"now",time:40.5}
+        {text:"Turn",time:37.6}, {text:"the",time:37.9}, {text:"back,",time:38.3}, {text:"it's",time:38.7}, 
+        {text:"too",time:39.1}, {text:"late",time:39.6}, {text:"now",time:40.2}
     ]
 },
 {
-    lineStart: 41.5, lineEnd: 44.9,
+    lineStart: 41.1, lineEnd: 44.5,
     words: [
-        {text:"Say",time:41.5}, {text:"it",time:41.9}, {text:"soft",time:42.3}, {text:"then",time:42.7}, 
-        {text:"say",time:43.1}, {text:"it",time:43.5}, {text:"loud",time:44.0}
+        {text:"Say",time:41.1}, {text:"it",time:41.4}, {text:"soft",time:41.8}, {text:"then",time:42.2}, 
+        {text:"say",time:42.6}, {text:"it",time:43.1}, {text:"loud",time:43.7}
     ]
 },
 {
-    lineStart: 45.0, lineEnd: 48.4,
+    lineStart: 44.6, lineEnd: 48.0,
     words: [
-        {text:"Lose",time:45.0}, {text:"that",time:45.4}, {text:"line,",time:45.8}, {text:"lose",time:46.2}, 
-        {text:"that",time:46.6}, {text:"frame",time:47.1}
+        {text:"Lose",time:44.6}, {text:"that",time:44.9}, {text:"line,",time:45.3}, {text:"lose",time:45.7}, 
+        {text:"that",time:46.1}, {text:"frame",time:46.8}
     ]
 },
 {
-    lineStart: 48.5, lineEnd: 51.6,
+    lineStart: 48.1, lineEnd: 51.2,
     words: [
-        {text:"Say",time:48.5}, {text:"it",time:48.9}, {text:"once,",time:49.3}, {text:"forget",time:49.7}, 
-        {text:"your",time:50.3}, {text:"name",time:50.8}
+        {text:"Say",time:48.1}, {text:"it",time:48.4}, {text:"once,",time:48.8}, {text:"forget",time:49.3}, 
+        {text:"your",time:49.9}, {text:"name",time:50.5}
     ]
 },
 {
-    lineStart: 51.7, lineEnd: 53.9,
+    lineStart: 51.3, lineEnd: 53.5,
     words: [
-        {text:"Drop-drop-drop-drop",time:51.7}, {text:"your",time:52.7}, {text:"name",time:53.2}
+        {text:"Drop-drop-drop-drop",time:51.3}, {text:"your",time:52.2}, {text:"name",time:52.8}
     ]
 },
 {
-    lineStart: 54.0, lineEnd: 55.4, highlight: true,
+    lineStart: 53.6, lineEnd: 55.4, highlight: true,
     words: [
-        {text:"STAY",time:54.0}, {text:"INSIDE!",time:54.5}
+        {text:"STAY",time:53.6}, {text:"INSIDE!",time:54.2}
     ]
 },
 {
-    lineStart: 55.5, lineEnd: 58.9,
+    lineStart: 55.5, lineEnd: 58.8,
     words: [
-        {text:"Say",time:55.5}, {text:"it,",time:55.9}, {text:"say",time:56.2}, {text:"it",time:56.5}, 
-        {text:"till",time:56.9}, {text:"I",time:57.4}, {text:"fade",time:57.8}
+        {text:"Say",time:55.5}, {text:"it,",time:55.8}, {text:"say",time:56.1}, {text:"it",time:56.4}, 
+        {text:"till",time:56.8}, {text:"I",time:57.3}, {text:"fade",time:57.9}
     ]
 },
 {
-    lineStart: 59.0, lineEnd: 62.4,
+    lineStart: 58.9, lineEnd: 62.1,
     words: [
-        {text:"Say",time:59.0}, {text:"it",time:59.3}, {text:"till",time:59.6}, {text:"I",time:59.9}, 
+        {text:"Say",time:58.9}, {text:"it",time:59.2}, {text:"till",time:59.5}, {text:"I",time:59.8}, 
         {text:"fade",time:60.5}
     ]
 },
 {
-    lineStart: 62.5, lineEnd: 65.9,
+    lineStart: 62.2, lineEnd: 65.4,
     words: [
-        {text:"Push",time:62.5}, {text:"me",time:62.9}, {text:"till",time:63.3}, {text:"I",time:63.7}, {text:"break",time:64.3}
+        {text:"Push",time:62.2}, {text:"me",time:62.6}, {text:"till",time:63.0}, {text:"I",time:63.4}, {text:"break",time:64.1}
     ]
 },
 {
-    lineStart: 66.0, lineEnd: 69.2,
+    lineStart: 65.5, lineEnd: 68.9,
     words: [
-        {text:"I",time:66.0}, {text:"don't",time:66.4}, {text:"wanna",time:66.9}, {text:"stay",time:67.6}
+        {text:"I",time:65.5}, {text:"don't",time:65.9}, {text:"wanna",time:66.5}, {text:"stay",time:67.4}
     ]
 },
 {
-    lineStart: 69.3, lineEnd: 72.7,
+    lineStart: 69.0, lineEnd: 72.3,
     words: [
-        {text:"Cross",time:69.3}, {text:"that",time:69.7}, {text:"line,",time:70.1}, {text:"we",time:70.5}, 
-        {text:"don't",time:70.9}, {text:"behave",time:71.5}
+        {text:"Cross",time:69.0}, {text:"that",time:69.4}, {text:"line,",time:69.8}, {text:"we",time:70.2}, 
+        {text:"don't",time:70.6}, {text:"behave",time:71.3}
     ]
 },
 {
-    lineStart: 72.8, lineEnd: 76.2,
+    lineStart: 72.4, lineEnd: 75.8,
     words: [
-        {text:"Kill",time:72.8}, {text:"the",time:73.2}, {text:"doubt,",time:73.6}, {text:"we",time:74.0}, 
-        {text:"disobey",time:74.8}
+        {text:"Kill",time:72.4}, {text:"the",time:72.8}, {text:"doubt,",time:73.2}, {text:"we",time:73.6}, 
+        {text:"disobey",time:74.4}
     ]
 },
 {
-    lineStart: 76.3, lineEnd: 79.5,
+    lineStart: 75.9, lineEnd: 79.1,
     words: [
-        {text:"No-no-no",time:76.3}, {text:"more",time:77.3}, {text:"space",time:78.1}
+        {text:"No-no-no",time:75.9}, {text:"more",time:76.8}, {text:"space",time:77.7}
     ]
 },
 {
-    lineStart: 79.6, lineEnd: 81.9,
+    lineStart: 79.2, lineEnd: 81.6,
     words: [
-        {text:"We",time:79.6}, {text:"overlap",time:80.4}
+        {text:"We",time:79.2}, {text:"overlap",time:80.0}
     ]
 },
 {
-    lineStart: 82.0, lineEnd: 84.4,
+    lineStart: 81.7, lineEnd: 84.1,
     words: [
-        {text:"No",time:82.0}, {text:"way",time:82.4}, {text:"out",time:83.0}
+        {text:"No",time:81.7}, {text:"way",time:82.1}, {text:"out",time:82.7}
     ]
 },
 {
-    lineStart: 84.5, lineEnd: 86.9,
+    lineStart: 84.2, lineEnd: 86.6,
     words: [
-        {text:"We",time:84.5}, {text:"don't",time:84.9}, {text:"go",time:85.3}, {text:"back",time:85.8}
+        {text:"We",time:84.2}, {text:"don't",time:84.6}, {text:"go",time:85.0}, {text:"back",time:85.6}
     ]
 },
 {
-    lineStart: 87.0, lineEnd: 88.9,
+    lineStart: 86.7, lineEnd: 88.6,
     words: [
-        {text:"See?",time:87.0}
+        {text:"See?",time:86.7}
     ]
 },
 {
-    lineStart: 89.0, lineEnd: 92.4,
+    lineStart: 88.7, lineEnd: 92.1,
     words: [
-        {text:"Say",time:89.0}, {text:"it",time:89.3}, {text:"till",time:89.6}, {text:"I",time:89.9}, 
-        {text:"fade,",time:90.3}, {text:"fade",time:91.0}
+        {text:"Say",time:88.7}, {text:"it",time:89.0}, {text:"till",time:89.3}, {text:"I",time:89.6}, 
+        {text:"fade,",time:90.0}, {text:"fade",time:90.8}
     ]
 },
 {
-    lineStart: 92.5, lineEnd: 95.9,
+    lineStart: 92.2, lineEnd: 95.5,
     words: [
-        {text:"Say",time:92.5}, {text:"it",time:92.8}, {text:"till",time:93.1}, {text:"I",time:93.4}, 
-        {text:"fade",time:94.0}
+        {text:"Say",time:92.2}, {text:"it",time:92.5}, {text:"till",time:92.8}, {text:"I",time:93.1}, 
+        {text:"fade",time:93.8}
     ]
 },
 {
-    lineStart: 96.0, lineEnd: 99.4,
+    lineStart: 95.6, lineEnd: 98.9,
     words: [
-        {text:"Push",time:96.0}, {text:"me",time:96.4}, {text:"till",time:96.8}, {text:"I",time:97.2}, {text:"break",time:97.8}
+        {text:"Push",time:95.6}, {text:"me",time:96.0}, {text:"till",time:96.4}, {text:"I",time:96.8}, {text:"break",time:97.5}
     ]
 },
 {
-    lineStart: 99.5, lineEnd: 102.7,
+    lineStart: 99.0, lineEnd: 102.3,
     words: [
-        {text:"I",time:99.5}, {text:"don't",time:99.9}, {text:"wanna",time:100.4}, {text:"stay",time:101.1}
+        {text:"I",time:99.0}, {text:"don't",time:99.4}, {text:"wanna",time:100.0}, {text:"stay",time:100.9}
     ]
 },
 {
-    lineStart: 102.8, lineEnd: 106.2,
+    lineStart: 102.4, lineEnd: 105.8,
     words: [
-        {text:"Fall",time:102.8}, {text:"as",time:103.2}, {text:"one,",time:103.6}, {text:"no",time:104.0}, 
-        {text:"escape",time:104.8}
+        {text:"Fall",time:102.4}, {text:"as",time:102.8}, {text:"one,",time:103.2}, {text:"no",time:103.6}, 
+        {text:"escape",time:104.4}
     ]
 },
 {
-    lineStart: 106.3, lineEnd: 109.7,
+    lineStart: 106.3, lineEnd: 109.5,
     words: [
         {text:"We",time:106.3}, {text:"don't",time:106.7}, {text:"stop,",time:107.1}, {text:"we",time:107.5}, 
-        {text:"mutate",time:108.3}
+        {text:"mutate",time:108.2}
     ]
 },
 {
-    lineStart: 109.8, lineEnd: 112.9,
+    lineStart: 109.6, lineEnd: 112.7,
     words: [
-        {text:"Say",time:109.8}, {text:"it,",time:110.4}, {text:"say",time:111.0}, {text:"it,",time:111.6}, {text:"say",time:112.1}, {text:"it...",time:112.5}
+        {text:"Say",time:109.6}, {text:"it,",time:110.1}, {text:"say",time:110.6}, {text:"it,",time:111.2}, {text:"say",time:111.7}, {text:"it...",time:112.2}
     ]
 },
 {
-    lineStart: 113.0, lineEnd: 116.4,
+    lineStart: 112.8, lineEnd: 116.2,
     words: [
-        {text:"Say",time:113.0}, {text:"it",time:113.3}, {text:"till",time:113.6}, {text:"I",time:113.9}, 
-        {text:"fade,",time:114.3}, {text:"fade,",time:114.9}, {text:"fade,",time:115.4}, {text:"fade",time:115.9}
+        {text:"Say",time:112.8}, {text:"it",time:113.1}, {text:"till",time:113.4}, {text:"I",time:113.7}, 
+        {text:"fade,",time:114.1}, {text:"fade,",time:114.6}, {text:"fade,",time:115.1}, {text:"fade",time:115.6}
     ]
 },
 {
-    lineStart: 116.5, lineEnd: 119.9,
+    lineStart: 116.3, lineEnd: 119.6,
     words: [
-        {text:"Say",time:116.5}, {text:"it",time:116.8}, {text:"till",time:117.1}, {text:"I",time:117.4}, 
-        {text:"fade",time:118.0}
+        {text:"Say",time:116.3}, {text:"it",time:116.6}, {text:"till",time:116.9}, {text:"I",time:117.2}, 
+        {text:"fade",time:117.9}
     ]
 },
 {
-    lineStart: 120.0, lineEnd: 123.4,
+    lineStart: 119.7, lineEnd: 123.0,
     words: [
-        {text:"Say",time:120.0}, {text:"it",time:120.3}, {text:"till",time:120.6}, {text:"I",time:120.9}, 
-        {text:"fade",time:121.5}
+        {text:"Say",time:119.7}, {text:"it",time:120.0}, {text:"till",time:120.3}, {text:"I",time:120.6}, 
+        {text:"fade",time:121.3}
     ]
 },
 {
-    lineStart: 123.5, lineEnd: 127.0,
+    lineStart: 123.1, lineEnd: 126.5,
     words: [
-        {text:"Say",time:123.5}, {text:"it",time:123.8}, {text:"till",time:124.1}, {text:"I",time:124.4}, 
-        {text:"fade",time:125.0}
+        {text:"Say",time:123.1}, {text:"it",time:123.4}, {text:"till",time:123.7}, {text:"I",time:124.0}, 
+        {text:"fade",time:124.7}
     ]
 }
 ];
@@ -468,6 +468,23 @@ const uploadLabel = document.getElementById("uploadLabel");
 
 let targetTranslateY = 0;
 let actualTranslateY = 0;
+let db = null;
+
+// Khởi tạo IndexedDB để lưu trữ tệp âm thanh dung lượng lớn dung nạp lâu dài
+const request = indexedDB.open("CyberpunkKaraokeDB", 1);
+request.onupgradeneeded = (e) => {
+    db = e.target.result;
+    if (!db.objectStoreNames.contains("audioStore")) {
+        db.createObjectStore("audioStore", { keyPath: "id" });
+    }
+};
+request.onsuccess = (e) => {
+    db = e.target.result;
+    loadAudioFromStorage(); // Tự động nạp lại nếu dữ liệu đã tồn tại sẵn
+};
+request.onerror = (e) => {
+    console.error("IndexedDB Error:", e);
+};
 
 function createLyrics(){
     lyricsContent.innerHTML = "";
@@ -538,7 +555,6 @@ function updateLyrics(){
         }
     });
 
-    // Định vị dòng active ở chính giữa tâm trục dọc của container
     if (activeLineElement) {
         const lineTop = activeLineElement.offsetTop;
         const lineHeight = activeLineElement.offsetHeight;
@@ -547,11 +563,41 @@ function updateLyrics(){
         targetTranslateY = (containerHeight / 2) - (lineTop + (lineHeight / 2));
     }
 
-    // Lướt cuộn mượt dịu bằng kỹ thuật nội suy Lerp
     actualTranslateY += (targetTranslateY - actualTranslateY) * 0.1;
     lyricsContent.style.transform = `translateY(${actualTranslateY}px)`;
 
     requestAnimationFrame(updateLyrics);
+}
+
+// Hàm lưu dữ liệu tệp vào cơ sở dữ liệu trình duyệt
+function saveAudioToStorage(file) {
+    if (!db) return;
+    const transaction = db.transaction(["audioStore"], "readwrite");
+    const store = transaction.objectStore(["audioStore"]);
+    const audioData = {
+        id: "currentTrack",
+        name: file.name,
+        blob: file
+    };
+    store.put(audioData);
+}
+
+// Hàm tự động nạp lại bài hát cũ từ bộ nhớ khi tải lại trang
+function loadAudioFromStorage() {
+    if (!db) return;
+    const transaction = db.transaction(["audioStore"], "readonly");
+    const store = transaction.objectStore("audioStore");
+    const getRequest = store.get("currentTrack");
+
+    getRequest.onsuccess = (e) => {
+        const result = e.target.result;
+        if (result && result.blob) {
+            audio.src = URL.createObjectURL(result.blob);
+            statusText.innerHTML = "Đã khôi phục: " + result.name;
+            statusText.style.color = "#00e5ff";
+            uploadLabel.innerText = "ĐỔI FILE NHẠC";
+        }
+    };
 }
 
 audioInput.addEventListener("change",(e)=>{
@@ -566,6 +612,7 @@ audioInput.addEventListener("change",(e)=>{
         actualTranslateY = 0;
         lyricsContent.style.transform = "translateY(0px)";
         
+        saveAudioToStorage(file); // Tiến hành ghi nhớ bài mới vào thiết bị
         audio.play().catch(err => console.log("Hệ thống chờ phát nhạc."));
     }
 });
